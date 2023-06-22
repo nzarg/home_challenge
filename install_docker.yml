@@ -1,0 +1,93 @@
+---
+- name: Configure VPS with Docker
+  hosts: all
+  remote_user: root
+  become: true
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install UFW (Uncomplicated Firewall)
+      apt:
+        name: ufw
+        state: present
+
+    - name: Configure UFW to allow SSH
+      ufw:
+        rule: allow
+        port: '22'
+        comment: "Allow SSH"
+        state: enabled
+
+    - name: Configure UFW to allow incoming connections from specific IP addresses
+      ufw:
+        rule: allow
+        from_ip: "{{ item }}"
+        state: enabled
+      loop:
+        - 120.138.16.30
+        - 120.138.23.30
+        - 120.138.19.22
+
+    - name: Enable UFW
+      ufw:
+        state: enabled
+
+    - name: Install Docker dependencies
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - apt-transport-https
+        - ca-certificates
+        - curl
+        - gnupg
+        - lsb-release
+
+    - name: Add Docker GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker repository
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: Install Docker
+      apt:
+        name: docker-ce
+        state: present
+
+    - name: Start Docker service
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Install Node.js
+      apt:
+        name: nodejs
+        state: present
+
+    - name: Install npm
+      apt:
+        name: npm
+        state: present
+
+    - name: Copy Node.js application files
+      copy:
+        src: /path/to/your/nodejs/app
+        dest: /root/app
+
+    - name: Install Node.js dependencies
+      command: npm install
+      args:
+        chdir: /root/app
+
+    - name: Start Node.js application
+      command: npm start
+      args:
+        chdir: /root/app
