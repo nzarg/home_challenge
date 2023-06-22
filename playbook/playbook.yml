@@ -1,0 +1,11 @@
+---
+- name: Configure VPS with Docker and Node.js
+  hosts: node1
+  remote_user: root
+  become: true
+
+  roles:
+    - firewall
+    - docker
+    - nodejs
+    - app
