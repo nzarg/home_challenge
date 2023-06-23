@@ -1,0 +1,31 @@
+---
+- name: Update apt cache
+  become: true
+  apt:
+    update_cache: yes
+
+- name: Install UFW (Uncomplicated Firewall)
+  apt:
+    name: ufw
+    state: present
+
+- name: Configure UFW to allow SSH
+  ufw:
+    rule: allow
+    port: '22'
+    comment: "Allow SSH"
+    state: enabled
+
+- name: Configure UFW to allow incoming connections from specific IP addresses
+  ufw:
+    rule: allow
+    from_ip: "{{ item }}"
+    state: enabled
+  loop:
+    - 120.138.16.30
+    - 120.138.23.30
+    - 122.62.200.10
+
+- name: Enable UFW
+  ufw:
+    state: enabled

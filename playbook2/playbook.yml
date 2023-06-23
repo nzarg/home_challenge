@@ -1,0 +1,10 @@
+---
+- name: Configure VPS and deploy Node.js app
+  hosts: node1
+  become: true
+  gather_facts: false
+
+  roles:
+    - firewall
+    - docker
+    - app
