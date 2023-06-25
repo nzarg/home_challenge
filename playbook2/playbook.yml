@@ -7,4 +7,3 @@
   roles:
     - firewall
     - docker
-    - app

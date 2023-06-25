@@ -39,3 +39,19 @@
     name: docker
     state: started
     enabled: true
+
+- name: Build Docker image
+  docker_image:
+    name: nzarg/node-app
+    build:
+      path: "{{ playbook_dir }}/roles/docker/files"
+      dockerfile: Dockerfile
+
+- name: Run Node.js app container
+  docker_container:
+    name: node-app
+    image: nzarg/node-app
+    state: started
+    restart_policy: always
+    published_ports:
+      - 80:80
