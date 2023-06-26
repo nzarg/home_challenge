@@ -1,5 +1,6 @@
 ---
 - name: Update apt cache
+  become: true
   apt:
     update_cache: yes
 
@@ -24,7 +25,6 @@
     - 120.138.16.30
     - 120.138.23.30
     - 122.62.200.10
-    - 120.138.30.92
 
 - name: Enable UFW
   ufw:

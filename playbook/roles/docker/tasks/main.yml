@@ -1,14 +1,23 @@
 ---
+- name: Install pip for Python 3
+  apt:
+    name: python3-pip
+    state: present
+
+- name: Install required Python library (docker or docker-py)
+  pip:
+    name: docker
+    state: present
+    executable: pip3
+
 - name: Install Docker dependencies
   apt:
-    name: "{{ item }}"
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - software-properties-common
     state: present
-  loop:
-    - apt-transport-https
-    - ca-certificates
-    - curl
-    - gnupg
-    - lsb-release
 
 - name: Add Docker GPG key
   apt_key:
@@ -17,16 +26,32 @@
 
 - name: Add Docker repository
   apt_repository:
-    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable
     state: present
 
-- name: Install Docker
+- name: Install Docker Engine
   apt:
     name: docker-ce
     state: present
 
-- name: Start Docker service
+- name: Start and enable Docker service
   service:
     name: docker
     state: started
-    enabled: yes
+    enabled: true
+
+- name: Build Docker image
+  docker_image:
+    name: nzarg/node-app
+    build:
+      path: "{{ playbook_dir }}/roles/docker/files"
+      dockerfile: Dockerfile
+
+- name: Run Node.js app container
+  docker_container:
+    name: node-app
+    image: nzarg/node-app
+    state: started
+    restart_policy: always
+    published_ports:
+      - 80:80
