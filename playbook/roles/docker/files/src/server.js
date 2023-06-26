@@ -125,15 +125,87 @@ function getDomainsList(apiKey, clientId) {
 
 
 // Route for displaying the form to add a DNS record
-app.get('/', (req, res) => {
-  res.send(`
-    <h1>Add DNS Record</h1>
-    <form method="POST" action="/add-record">
+app.get('/', async (req, res) => {
+
+  try {
+    const clientId = await getClientId(API_KEY);
+    const domainsList = await getDomainsList(API_KEY, clientId);
+
+    // Generate the options for the dropdown
+    const dropdownOptions = domainsList
+    .map(domain => `<option value="${domain.name}">${domain.name}</option>`)
+    .join('');
+
+    res.send(`
+      <h1>DNS Zone Record</h1>
+      <form method="POST" action="/add-record">
+        <h2>Add a new DNS Zone</h2>
+        
+        <label for="domain">Domain:</label>
+        <input type="text" id="domain" name="domain" required>
+        <input type="submit" value="Add DNS Zone">
+      </form>
+
+
+      <form method="POST" action="/add-record">
+      <h2>Add a new DNS Zone</h2>
+      
       <label for="domain">Domain:</label>
-      <input type="text" id="domain" name="domain" required><br><br>
-      <input type="submit" value="Add Record">
+      <input type="text" id="domain" name="domain" required>
+      <input type="submit" value="Add DNS Zone">
+      <h2>Add DNS Record</h2>
+      <label for="dns_zone">Domain:</label>
+      <select id="dns_zone" name="dns_zone" required>
+        ${dropdownOptions}
+      </select><br><br>
+      <label for="record_name">Record Name:</label>
+      <input type="text" id="record_name" name="record_name" required><br><br>
     </form>
-  `);
+
+    `);
+
+  } catch (error) {
+    res.send(`
+      <h1>Error</h1>
+      <p>${error.message}</p>
+    `);
+  }
+
+});
+
+// Route for handling the addition of a DNS record
+app.post('/add-record', async (req, res) => {
+  const domain = req.body.domain;
+
+  try {
+    const clientId = await getClientId(API_KEY);
+    const addDomainResponse = await addDomain(clientId, domain)
+    const dnsRecord = await addDNSRecord(clientId, domain);
+    const dnsList = await getDnsList(API_KEY, clientId, domain);
+    const domainsList = await getDomainsList(API_KEY, clientId);
+    res.send(`
+      <h1>Client ID</h1>
+      <p>The retrieved client ID is: ${clientId}</p>
+      <pre>${JSON.stringify(clientId, null, 2)}</pre>
+      <h1>Domain Added</h1>
+      <p>The Domain has been added successfully: "${domain}".</p>
+      <pre>${JSON.stringify(addDomainResponse, null, 2)}</pre>
+      <h1>Domains List</h1>
+      <pre>${JSON.stringify(domainsList, null, 2)}</pre>
+      <h1>DNS Record Added</h1>
+      <p>The DNS record has been added successfully to the domain "${domain}".</p>
+      <pre>${JSON.stringify(dnsRecord, null, 2)}</pre>
+      <h1>DNS Records List</h1>
+      <pre>${JSON.stringify(dnsList, null, 2)}</pre>
+
+    `);
+
+  } catch (error) {
+    res.send(`
+      <h1>Error</h1>
+      <p>${error.message}</p>
+    `);
+  }
 });
 
 // Route for handling the addition of a DNS record
@@ -173,5 +245,5 @@ app.post('/add-record', async (req, res) => {
 
 // Start the server
 app.listen(80, () => {
-  console.log('Server is running on port 3000');
+  console.log('Server is running on port 80');
 });
