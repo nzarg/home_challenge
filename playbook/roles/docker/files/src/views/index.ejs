@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+  <h1>DNS Zone Record</h1>
+
+
+  <form method="POST" action="/add-dns-zone">
+    <h2>Add a new DNS Zone</h2>
+    <input type="text" id="domain" name="domain" placeholder="Domain" required><br><br>
+    <input type="submit" value="Add DNS Zone">
+  </form>
+
+
+  <form method="POST" action="/add-dns-record">
+    <h2>Add DNS Record</h2>
+    <select id="domain" name="domain" required>
+      <option value="">-- Select a DNS Zone --</option>
+      <% for(var i=0; i < domainsArray.length; i++) { %>
+        <option value="<%= domainsArray[i] %>"><%= domainsArray[i] %></option>
+        <% } %>
+
+    </select><br><br>
+
+    <input type="text" id="name" name="name" placeholder="Record Name" required>
+
+    <select id="type" name="type" required>
+      <option value="">-- Select Type --</option>
+      <% for(var i=0; i < typesArray.length; i++) { %>
+        <option value="<%= typesArray[i] %>"><%= typesArray[i] %></option>
+        <% } %>
+    </select>
+
+
+
+    <select id="prio" name="prio">
+      <option value="">-- Select Priority --</option>
+      <% for(var i=0; i < prioArray.length; i++) { %>
+        <option value="<%= prioArray[i] %>"><%= prioArray[i] %></option>
+        <% } %>
+    </select>
+
+    <input type="text" id="content" name="content" placeholder="Record Address" required><br><br>
+    
+    <input type="submit" value="Add DNS Record">
+  </form>
+
+</body>
+</html>
+

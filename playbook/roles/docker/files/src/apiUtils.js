@@ -95,7 +95,7 @@ async function getDnsList(apiKey, clientId, domain) {
 
 // Function to list Domains
 async function getDomainsList(apiKey, clientId) {
-  const url = `https://api.sitehost.nz/1.2/dns/list_domains.json?apikey=${apiKey}&client_id=${clientId}&filters[domain]=.com`;
+  const url = `https://api.sitehost.nz/1.2/dns/list_domains.json?apikey=${apiKey}&client_id=${clientId}`;
 
   const options = {
     method: 'GET',

@@ -8,6 +8,8 @@ const indexRouter = require('./routes/index')
 // Middleware to parse form data
 app.use(express.urlencoded({ extended: false }));
 
+app.set("view engine", "ejs")
+
 //Routing
 app.use('/', indexRouter);
 
