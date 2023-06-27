@@ -22,6 +22,7 @@ router.get('/', async (req, res) => {
   
     //Renders views/index.ejs
     res.render("index", {
+      clientId: clientId,
       domainsArray: domainsArray,
       typesArray: typesArray,
       prioArray: prioArray
