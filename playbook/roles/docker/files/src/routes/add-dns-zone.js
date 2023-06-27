@@ -13,16 +13,13 @@ router.post('/', async (req, res) => {
   try {
     const clientId = await getClientId(apiKey);
     const addDomainResponse = await addDomain(apiKey, clientId, domain)
-    res.send(`
-
-      <h1>Dns Zone Added</h1>
-      ${addDomainResponse.status? (
-        `<p>The Domain has been added successfully: "${domain}".</p>`):(
-          `<p>${addDomainResponse.msg}".</p>`
-        )
-      }
-      <a href="/">Next</a>
-    `);
+    
+    //Renders views/index.ejs
+    res.render("pages/add-dns-zone", {
+    clientId: clientId,
+    addDomainResponse: addDomainResponse,
+    stringResponse: JSON.stringify(addDomainResponse, null, 2)
+  })
 
   } catch (error) {
     res.send(`

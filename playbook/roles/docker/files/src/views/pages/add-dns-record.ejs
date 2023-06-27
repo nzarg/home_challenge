@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body>
+  <header>
+    <%- include('../partials/header'); %>
+  </header>
+
+  <h2>DNS Zone Records for client: # <%= clientId %></h2>
+  <% if(addDomainResponse.status){ %>
+    <h3>DNS Zone Added</h3>
+    <p>The domain was successfully added to your client.</p>
+  <% } else { %>
+    <h3>DNS Zone Not Added</h3>
+    <p><%= addDomainResponse.msg %></p>
+  <% } %>
+
+  
+  <a href="/">Next</a>
+<footer>
+  <%- include('../partials/footer'); %>
+</footer>
+</body>
+</html>

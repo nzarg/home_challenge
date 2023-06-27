@@ -21,7 +21,7 @@ router.get('/', async (req, res) => {
 
   
     //Renders views/index.ejs
-    res.render("index", {
+    res.render("pages/index", {
       clientId: clientId,
       domainsArray: domainsArray,
       typesArray: typesArray,
