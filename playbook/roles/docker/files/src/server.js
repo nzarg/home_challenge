@@ -49,15 +49,15 @@ function addDomain(clientId, domain) {
 }
 
 // Function to add a DNS record
-function addDNSRecord(clientId, domain) {
+function addDNSRecord(clientId, domain, type, name, content, prio = '0') {
   const data = new URLSearchParams();
   data.append('apikey', API_KEY);
   data.append('client_id', clientId);
   data.append('domain', domain);
-  data.append('type', 'A');
-  data.append('name', 'subdomain.example.nz');
-  data.append('content', '1.1.1.1');
-  data.append('prio', '0');
+  data.append('type', type);
+  data.append('name', `${name}.${domain}`);
+  data.append('content', content);
+  data.append('prio', prio);
 
   const options = {
     url: 'https://api.sitehost.nz/1.2/dns/add_record.json',
@@ -129,38 +129,63 @@ app.get('/', async (req, res) => {
 
   try {
     const clientId = await getClientId(API_KEY);
-    const domainsList = await getDomainsList(API_KEY, clientId);
+    const domainsListResponse = await getDomainsList(API_KEY, clientId);
 
-    // Generate the options for the dropdown
-    const dropdownOptions = domainsList
-    .map(domain => `<option value="${domain.name}">${domain.name}</option>`)
-    .join('');
+    // Generate the options base on a array
+    function arrayToDropdwon (array){
+      return array.map(e => `<option value="${e}">${e}</option>`).join('')
+    };
+
+    // Generate the options for the types dropdown
+    const domainsList = domainsListResponse.map(domain => domain.name);
+    const dropdownDomains = arrayToDropdwon(domainsList);
+
+    // Generate the options for the types dropdown
+    typesArray = ['A', 'AAAA', 'CNAME', 'SRV', 'MX', 'TXT', 'CAA'];
+    const dropdownTypes = arrayToDropdwon(typesArray);
+
+    // Generate the options for the prio dropdown
+    prioArray = ['0','1','5','10','15','20','30','40','50','60','70','80','90'];
+    const dropdownPrio = arrayToDropdwon(prioArray);
+
+  
 
     res.send(`
       <h1>DNS Zone Record</h1>
-      <form method="POST" action="/add-record">
+
+
+      <form method="POST" action="/add-dns-zone">
         <h2>Add a new DNS Zone</h2>
-        
-        <label for="domain">Domain:</label>
-        <input type="text" id="domain" name="domain" required>
+        <input type="text" id="domain" name="domain" placeholder="Domain" required><br><br>
         <input type="submit" value="Add DNS Zone">
       </form>
 
 
-      <form method="POST" action="/add-record">
-      <h2>Add a new DNS Zone</h2>
-      
-      <label for="domain">Domain:</label>
-      <input type="text" id="domain" name="domain" required>
-      <input type="submit" value="Add DNS Zone">
-      <h2>Add DNS Record</h2>
-      <label for="dns_zone">Domain:</label>
-      <select id="dns_zone" name="dns_zone" required>
-        ${dropdownOptions}
-      </select><br><br>
-      <label for="record_name">Record Name:</label>
-      <input type="text" id="record_name" name="record_name" required><br><br>
-    </form>
+      <form method="POST" action="/add-dns-record">
+        <h2>Add DNS Record</h2>
+        <select id="domain" name="domain" required>
+          <option value="">-- Select a DNS Zone --</option>
+          ${dropdownDomains}
+        </select><br><br>
+
+        <input type="text" id="name" name="name" placeholder="Record Name" required>
+
+        <select id="type" name="type" required>
+          <option value="">-- Select Type --</option>
+          ${dropdownTypes}
+        </select>
+
+
+
+        <select id="prio" name="prio">
+          <option value="">-- Select Priority --</option>
+          ${dropdownPrio}
+        </select>
+
+        <input type="text" id="content" name="content" placeholder="Record Address" required><br><br>
+        
+        <input type="submit" value="Add DNS Record">
+      </form>
 
     `);
 
@@ -174,29 +199,20 @@ app.get('/', async (req, res) => {
 });
 
 // Route for handling the addition of a DNS record
-app.post('/add-record', async (req, res) => {
+app.post('/add-dns-zone', async (req, res) => {
   const domain = req.body.domain;
 
   try {
     const clientId = await getClientId(API_KEY);
     const addDomainResponse = await addDomain(clientId, domain)
-    const dnsRecord = await addDNSRecord(clientId, domain);
-    const dnsList = await getDnsList(API_KEY, clientId, domain);
-    const domainsList = await getDomainsList(API_KEY, clientId);
     res.send(`
-      <h1>Client ID</h1>
-      <p>The retrieved client ID is: ${clientId}</p>
-      <pre>${JSON.stringify(clientId, null, 2)}</pre>
-      <h1>Domain Added</h1>
-      <p>The Domain has been added successfully: "${domain}".</p>
-      <pre>${JSON.stringify(addDomainResponse, null, 2)}</pre>
-      <h1>Domains List</h1>
-      <pre>${JSON.stringify(domainsList, null, 2)}</pre>
-      <h1>DNS Record Added</h1>
-      <p>The DNS record has been added successfully to the domain "${domain}".</p>
-      <pre>${JSON.stringify(dnsRecord, null, 2)}</pre>
-      <h1>DNS Records List</h1>
-      <pre>${JSON.stringify(dnsList, null, 2)}</pre>
+
+      <h1>Dns Zone Added</h1>
+      ${addDomainResponse.status? (
+        `<p>The Domain has been added successfully: "${domain}".</p>`):(
+          `<p>${addDomainResponse.msg}".</p>`
+        )
+      }
 
     `);
 
@@ -209,29 +225,30 @@ app.post('/add-record', async (req, res) => {
 });
 
 // Route for handling the addition of a DNS record
-app.post('/add-record', async (req, res) => {
+app.post('/add-dns-record', async (req, res) => {
   const domain = req.body.domain;
+  const type = req.body.type;
+  const name = req.body.name;
+  const content = req.body.content;
+  const prio = req.body.prio;
 
   try {
     const clientId = await getClientId(API_KEY);
-    const addDomainResponse = await addDomain(clientId, domain)
-    const dnsRecord = await addDNSRecord(clientId, domain);
+    const dnsRecord = await addDNSRecord(clientId, domain, type, name, content, prio);
     const dnsList = await getDnsList(API_KEY, clientId, domain);
-    const domainsList = await getDomainsList(API_KEY, clientId);
     res.send(`
-      <h1>Client ID</h1>
-      <p>The retrieved client ID is: ${clientId}</p>
-      <pre>${JSON.stringify(clientId, null, 2)}</pre>
-      <h1>Domain Added</h1>
-      <p>The Domain has been added successfully: "${domain}".</p>
-      <pre>${JSON.stringify(addDomainResponse, null, 2)}</pre>
-      <h1>Domains List</h1>
-      <pre>${JSON.stringify(domainsList, null, 2)}</pre>
-      <h1>DNS Record Added</h1>
-      <p>The DNS record has been added successfully to the domain "${domain}".</p>
+
+      <h1>DNS Record Status</h1>
+      ${dnsRecord.status?(
+        `<h5>The DNS record has been added successfully to the domain "${domain}".</h5>` 
+        ):(
+          `<h1>Error</h1>`
+        )
+      }
       <pre>${JSON.stringify(dnsRecord, null, 2)}</pre>
       <h1>DNS Records List</h1>
       <pre>${JSON.stringify(dnsList, null, 2)}</pre>
+      <a href="/">Next</a>
 
     `);
 
