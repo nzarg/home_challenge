@@ -5,6 +5,6 @@ COPY src /app/
 
 WORKDIR /app
 
-RUN npm install axios
+RUN npm install
 
 CMD ["node", "server.js"]
