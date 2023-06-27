@@ -1,8 +1,9 @@
 const axios = require('axios');
 const { URLSearchParams } = require('url');
+const apiKey = 'f5567a857d478d9cc8bd96e0115f8c2d07e9c68ff4fb1cd4a4f072b0629cd679';
 
 // Function to retrieve the client ID
-function getClientId(apiKey) {
+async function getClientId(apiKey) {
   return axios.get(`https://api.sitehost.nz/1.2/api/get_info.json?apikey=${apiKey}`)
     .then(response => {
       const { status, return: data } = response.data;
@@ -18,7 +19,7 @@ function getClientId(apiKey) {
 }
 
 // Function to add a Domain 
-function addDomain(apiKey, clientId, domain) {
+async function addDomain(apiKey, clientId, domain) {
   const data = new URLSearchParams();
   data.append('apikey', apiKey);
   data.append('client_id', clientId);
@@ -41,7 +42,7 @@ function addDomain(apiKey, clientId, domain) {
 }
 
 // Function to add a DNS record
-function addDNSRecord(apiKey, clientId, domain, type, name, content, prio = '0') {
+async function addDNSRecord(apiKey, clientId, domain, type, name, content, prio = '0') {
   const data = new URLSearchParams();
   data.append('apikey', apiKey);
   data.append('client_id', clientId);
@@ -69,7 +70,7 @@ function addDNSRecord(apiKey, clientId, domain, type, name, content, prio = '0')
 
 
 // Function to list DNS records
-function getDnsList(apiKey, clientId, domain) {
+async function getDnsList(apiKey, clientId, domain) {
   const url = `https://api.sitehost.nz/1.2/dns/list_records.json?apikey=${apiKey}&client_id=${clientId}&domain=${domain}`;
 
   const options = {
@@ -93,7 +94,7 @@ function getDnsList(apiKey, clientId, domain) {
 
 
 // Function to list Domains
-function getDomainsList(apiKey, clientId) {
+async function getDomainsList(apiKey, clientId) {
   const url = `https://api.sitehost.nz/1.2/dns/list_domains.json?apikey=${apiKey}&client_id=${clientId}&filters[domain]=.com`;
 
   const options = {
@@ -116,6 +117,7 @@ function getDomainsList(apiKey, clientId) {
 }
 
 module.exports = {
+  apiKey,
   getClientId,
   addDomain,
   addDNSRecord,
