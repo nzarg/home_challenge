@@ -95,12 +95,12 @@
     - name: Remove dockers containers
       command: docker rm -vf $(docker ps -aq)
       args:
-        shell: /bin/bash
+        chdir: /app/
     
     - name: Remove dockers images
       command: docker rmi -f $(docker images -aq)
       args:
-        shell: /bin/bash
+        chdir: /app/
 
     - name: Build docker container
       command: docker build -t nzarg/node-app:1.4 .
