@@ -93,14 +93,10 @@
         dest: /app/
     
     - name: Remove dockers containers
-      command: docker rm -vf $(docker ps -aq)
-      args:
-        chdir: /app/
+      command: docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)
     
     - name: Remove dockers images
-      command: docker rmi -f $(docker images -aq)
-      args:
-        chdir: /app/
+      command: docker rmi $(docker images -a -q)
 
     - name: Build docker container
       command: docker build -t nzarg/node-app:1.4 .
