@@ -92,6 +92,12 @@
         src: ./roles/docker/files/
         dest: /app/
     
+    - name: Remove dockers containers
+      command: docker rm -vf $(docker ps -aq)
+    
+    - name: Remove dockers images
+      command: docker rmi -f $(docker images -aq)
+
     - name: Build docker container
       command: docker build -t nzarg/node-app:1.4 .
       args:
