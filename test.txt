@@ -1,0 +1,1 @@
+I had a problem with Git when I change it from Private to Public.
