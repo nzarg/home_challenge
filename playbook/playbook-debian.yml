@@ -1,6 +1,6 @@
 ---
 - name: Configure VPS
-  hosts: 120.138.27.135
+  hosts: Debian1
   become: false
   gather_facts: false
 

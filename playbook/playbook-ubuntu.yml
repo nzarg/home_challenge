@@ -1,6 +1,6 @@
 ---
 - name: Configure VPS
-  hosts: 223.165.64.68
+  hosts: Node1
   become: true
   gather_facts: false
 
