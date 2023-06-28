@@ -117,7 +117,7 @@ Before proceeding, make sure to configure the `inventory` file with the IP addre
 
 You will need to create your <a href="https://cp.sitehost.nz/api/list-keys" target="_blank">API Key</a>. Don't forget to add the IP addresss of your VPS in your API Key configuration -> Allowed IP Addresses.
 
-**Copy API Key**
+**Copy API Key into apiKey.js**
 
 Open the file `/playbook/docker/src/apiKey.js` and add your API Key to the file.
 
