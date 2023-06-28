@@ -2,93 +2,97 @@
 
 ## Home Challenge: Lucas Boglione
 
-## First
+## First - Create SSH Key
 
-If you are planning to run `playbook.yml` on multiple servers at the same time, I would suggest creating an `SSH key` on your computer (control node) and copying that SSH key into the `Site Host` `Control Panel -> SSH Keys`. This way, when you create those new VPS, you can include those `SHH keys` in your VPS configuration.
+If you plan to execute `playbook.yml` on multiple servers simultaneously or for security purposes, I would recommend creating an SSH key on your computer (control node) and copying that SSH key into the **Site Host** control panel's SSH Keys section. By doing this, when you create new VPS instances, you can include those SSH keys in the VPS configuration.
 
 
-You can see all the SSH keys you have on your computer by using the following command:
+To begin, you can check if you already have SSH keys on your computer.
+
+**List SSH Keys:**
 
 ```bash
 $ ls -la ~/.ssh
 ```
 
 
-You can view and copy the content of the id_ed25519.pub file using the following command:
+**Print id_ed25519.pub file:**
 
 ```bash
 $ cat ~/.ssh/id_ed25519.pub
 ```
 
 
-If you want to create a new SSH key on your computer (control node), you can follow these steps, to make it easier for you, I have provided a sample IP (128.128.128.128) in the following commands.
+If you wish to create a new SSH key on your computer (control node), you can follow these steps. To make it easier for you, I have provided a sample IP address `128.128.128.128` in the following commands.
 
-NOTE: Please remember to replace 128.128.128.128 with the actual IP address of the target host.
-
-
-Generate a key with a passphrase:
-
-```bash
-$ ssh-keygen -t ed25519 -C 'user default'
-```
+NOTE: Please remember to replace `128.128.128.128` with the actual IP address of the target host.
 
 
-Create a key for ansible with no passphrase:
+**Create a key for Ansible:**
 
 ```bash
 $ ssh-keygen -t ed25519 -C "ansible"
 ```
+You will be asked for the name of the file type "ansible" and then a passphrase, which you should leave empty.
 
 
-List al your keys:
+The next step is optional but highly recommended for security reasons. However, if you wish to connect to the host without a passphrase, you can skip this step.
+
+**Generate another key with a passphrase:**
+
+```bash
+$ ssh-keygen -t ed25519 -C 'user default'
+```
+You will be asked for the name of the file. You can use the default value, and then provide a passphrase.
+
+
+**List al your keys:**
 
 ```bash
 $ ls -la ~/.ssh
 ```
 
 
-Display the key in the terminal:
+**Display the key in the terminal:**
 
 ```bash
 $ cat ~/.ssh/ansible.pub
 $ cat ~/.ssh/id_ed25519.pub
 ```
 
+Copy these values into the <a href="https://cp.sitehost.nz/ssh/list-keys">Site Host -> Control Panel -> SSH Keys</a> and create two different SSH Keys. Now, when you create the VPS, you can choose to include these SSH Keys.
 
-Just in case you forgot to select to include your SSH key when creating your VPS, these commands are helpful for copying your SSH keys from your computer to the target host.
+>
+> In case you forgot to select to include your SSH Key when creating your VPS, the following commands are useful for copying your SSH Keys from your computer to the target host.
+>
 
-
-Copy to Target Host:
+**Copy to Target Host:**
 
 ```bash
 $ ssh-copy-id -i ~/.ssh/id_ed25519.pub 128.128.128.128
 ```
 
 
-Copy to Target Host:
-
+**Copy to Target Host:**
 ```bash
 $ ssh-copy-id -i ~/.ssh/ansible.pub 128.128.128.128
 ```
 
 
-## Second
+## Second - Update your computer
 
-To ensure that your control node is up to date, run the command:
+To ensure that your computer (control node) is up to date, run the command:
 
 ```bash
 $ ansible-playbook install_on_control_node.yml
 ```
 
 
-Please note that this feature has not been tested yet.
-
-
-## Third and last
+## Third and last - Configure Ansible
 
 Before proceeding, make sure to configure the `inventory` file with the IP addresses where you want to install this software.
 
-Later, you will need to configure your `API_KEY` and add the `IP addresses` to the appropriate section.
+Later, you will need to configure your <a href="https://cp.sitehost.nz/api/list-keys">API_KEY</a> and add the `IP addresses` to the appropriate section.
 
 Finally, execute the command:
 
