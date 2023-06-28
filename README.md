@@ -69,6 +69,8 @@ drwxr-xr-x+ 41 user  staff  1312 26 Jun 10:19 ..
 
 ```bash
 cat ~/.ssh/ansible.pub
+```
+```bash
 cat ~/.ssh/id_ed25519.pub
 ```
 
@@ -84,14 +86,13 @@ Copy the SSH Keys values into the <a href="https://cp.sitehost.nz/ssh/list-keys"
 
 **Create your VPS**
 
-You can now create the VPS and include these SSH Keys in it, I recommend the latest Ubuntu distro.
-
-
+You can now create the VPS, I recommend you the latest Ubuntu distro and include both SSH Keys in it.
 
 
 ## Third and last - Configure Ansible
 
 **Configure inventory**
+
 Before proceeding, make sure to configure the `inventory` file with the IP addresses where you want to install this software.
 
 ```
@@ -112,11 +113,12 @@ Before proceeding, make sure to configure the `inventory` file with the IP addre
 >
 
 **Create API Key**
+
 You will need to create your <a href="https://cp.sitehost.nz/api/list-keys" target="_blank">API Key</a>. Don't forget to add the IP addresss of your VPS in your API Key configuration -> Allowed IP Addresses.
 
 **Copy API Key**
 
-Open the file /playbook/docker/src/apiKey.js and add your API Key to the file.
+Open the file `/playbook/docker/src/apiKey.js` and add your API Key to the file.
 
 ```
 const apiKey = 'your-api-goes-here';
