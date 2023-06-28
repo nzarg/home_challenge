@@ -19,12 +19,12 @@ $ cat ~/.ssh/id_ed25519.pub
 ```
 
 
-If you want to create a new SSH key on your computer (control node), you can follow these steps, to make it easier for you, I have provided a sample IP (128.128.128.128) in the following `command`s.
+If you want to create a new SSH key on your computer (control node), you can follow these steps, to make it easier for you, I have provided a sample IP (128.128.128.128) in the following `commands`.
 
 NOTE: Please remember to replace 128.128.128.128 with the actual IP address of the target host.
 
 
-Generate a key with a passphrase
+Generate a key with a passphrase:
 
 ```bash
 $ ssh-keygen -t ed25519 -C 'user default'
@@ -53,7 +53,7 @@ $ cat ~/.ssh/id_ed25519.pub
 ```
 
 
-Just in case you forgot to select to include your SSH key when creating your VPS, these `command`s are helpful for copying your SSH keys from your computer to the target host.
+Just in case you forgot to select to include your SSH key when creating your VPS, these `commands` are helpful for copying your SSH keys from your computer to the target host.
 
 
 Copy to Target Host:
@@ -91,6 +91,6 @@ Later, you will need to configure your `API_KEY` and add the `IP addresses` to t
 Finally, execute the `command`:
 
 ```bash
-$ ansible-playbook playbook..yml
+$ ansible-playbook playbook.yml
 ```
 
