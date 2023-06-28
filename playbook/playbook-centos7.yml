@@ -14,7 +14,13 @@
       yum:
         name: firewalld
         state: present
-    
+    - name: Install firewalld and python-firewall packages
+      yum:
+        name:
+          - firewalld
+          - python-firewall
+        state: present
+
     - name: Start firewalld service
       service:
         name: firewalld
@@ -23,10 +29,10 @@
 
     - name: Configure firewalld to allow incoming connections from specific IP addresses
       firewalld:
-        zone: public
+        zone: trusted
         permanent: true
         state: enabled
-        port: "{{ item }}/tcp"
+        source: "{{ item }}"
         immediate: true
       loop:
         - 120.138.16.30
@@ -34,11 +40,11 @@
         - 120.138.19.228
         - 122.62.200.10
     
-    - name: Configure firewalld to deny SSH
+    - name: Configure firewalld SSH
       firewalld:
         zone: public
         permanent: true
-        state: enabled
+        state: disabled
         service: ssh
 
     - name: Reload firewalld
