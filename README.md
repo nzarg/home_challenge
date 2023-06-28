@@ -1,10 +1,10 @@
 # Home Challenge: Lucas Boglione
 
-Assuming you already have Ansible installed on your computer or Node Control, if that's not the case, the following link will help you <a href="https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html" target="_blank">get started with Ansible</a>.
+I'm assuming you already have Ansible installed on your computer or Node Control, if that's not the case, the following link will help you <a href="https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html" target="_blank">get started with Ansible</a>.
 
 Please clone this repository onto your computer and follow the next steps.
 
-## First - Create SSH Key
+## First - Create a SSH Key
 
 For security purposes and to save time when running an Ansible playbook on multiple targets, I would recommend creating an SSH Key on your computer (control node) and copying that SSH Key into the **Site Host** control panel's SSH Keys section. By doing this, you can include those SSH Keys in the VPS configuration when creating new VPS instances.
 
@@ -36,17 +36,15 @@ To create a new SSH Key on your computer (control node), you can follow the next
 ```bash
 ssh-keygen -t ed25519 -C "ansible"
 ```
-You will be asked for the name of the file type "ansible" and then a passphrase, which you should leave empty.
+You will be asked for the file name, use `/root/.ssh/ansible` and then a passphrase, which you should leave empty.
 
-
-The next step is optional but highly recommended for security reasons. However, if you wish to connect to the host without a passphrase, you can skip this step.
 
 **Generate another key with a passphrase:**
 
 ```bash
 ssh-keygen -t ed25519 -C 'user default'
 ```
-You will be asked for the name of the file. You can use the default value, and then provide a passphrase.
+You will be asked for the file name, use the default value, and then provide a passphrase.
 
 
 **List al your keys:**
@@ -131,14 +129,21 @@ module.exports = {
 ```
 **Run the Ansible Playbook**
 
-Finally, execute the command based on your VPS distro:
+Finally, execute the command based on your VPS distribuition:
+
+**Ubuntu 22.04**
 
 ```bash
 ansible-playbook playbook-ubuntu22-04.yml
 ```
+
+**CentOS 7**
+
 ```bash
 ansible-playbook playbook-centos7.yml
 ```
+
+**Debian 11**
 ```bash
 ansible-playbook playbook-debian11.yml
 ```
