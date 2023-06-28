@@ -7,45 +7,47 @@
   <header>
     <%- include('../partials/header'); %>
   </header>
+  <main>
+    <h2>DNS Zone Records for client: # <%= clientId %></h2>
 
-  <h2>DNS Zone Records for client: # <%= clientId %></h2>
+    <form method="POST" action="/add-dns-zone">
+      <h3>DNS Zone</h3>
+      <input type="text" id="domain" name="domain" placeholder="Domain" required><br><br>
+      <input type="submit" value="Add DNS Zone">
+    </form>
 
-  <form method="POST" action="/add-dns-zone">
-    <h3>DNS Zone</h3>
-    <input type="text" id="domain" name="domain" placeholder="Domain" required><br><br>
-    <input type="submit" value="Add DNS Zone">
-  </form>
+    <form method="POST" action="/add-dns-record" class="last">
+      <h3>DNS Record</h3>
+      <select id="domain" name="domain" required>
+        <option value="">-- Select a DNS Zone --</option>
+        <% for(var i=0; i < domainsArray.length; i++) { %>
+          <option value="<%= domainsArray[i] %>"><%= domainsArray[i] %></option>
+          <% } %>
+      </select><br><br>
 
-  <form method="POST" action="/add-dns-record" class="last">
-    <h3>DNS Record</h3>
-    <select id="domain" name="domain" required>
-      <option value="">-- Select a DNS Zone --</option>
-      <% for(var i=0; i < domainsArray.length; i++) { %>
-        <option value="<%= domainsArray[i] %>"><%= domainsArray[i] %></option>
-        <% } %>
-    </select><br><br>
+      <input type="text" id="name" name="name" placeholder="Record Name" required>
 
-    <input type="text" id="name" name="name" placeholder="Record Name" required>
+      <select id="type" name="type" required>
+        <option value="">-- Select Type --</option>
+        <% for(var i=0; i < typesArray.length; i++) { %>
+          <option value="<%= typesArray[i] %>"><%= typesArray[i] %></option>
+          <% } %>
+      </select>
 
-    <select id="type" name="type" required>
-      <option value="">-- Select Type --</option>
-      <% for(var i=0; i < typesArray.length; i++) { %>
-        <option value="<%= typesArray[i] %>"><%= typesArray[i] %></option>
-        <% } %>
-    </select>
+      <select id="prio" name="prio">
+        <option value="">-- Select Priority --</option>
+        <% for(var i=0; i < prioArray.length; i++) { %>
+          <option value="<%= prioArray[i] %>"><%= prioArray[i] %></option>
+          <% } %>
+      </select>
 
-    <select id="prio" name="prio">
-      <option value="">-- Select Priority --</option>
-      <% for(var i=0; i < prioArray.length; i++) { %>
-        <option value="<%= prioArray[i] %>"><%= prioArray[i] %></option>
-        <% } %>
-    </select>
+      <input type="text" id="content" name="content" placeholder="Record Address" required><br><br>
+      
+      <input type="submit" value="Add DNS Record">
+    </form>
 
-    <input type="text" id="content" name="content" placeholder="Record Address" required><br><br>
-    
-    <input type="submit" value="Add DNS Record">
-  </form>
-<footer>
+  </main>
+  <footer>
   <%- include('../partials/footer'); %>
 </footer>
 </body>

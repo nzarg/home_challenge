@@ -17,15 +17,14 @@ router.post('/', async (req, res) => {
     //Renders views/index.ejs
     res.render("pages/add-dns-zone", {
     clientId: clientId,
-    addDomainResponse: addDomainResponse,
-    stringResponse: JSON.stringify(addDomainResponse, null, 2)
-  })
+    domain: domain,
+    addDomainResponse: addDomainResponse
+    })
 
   } catch (error) {
-    res.send(`
-      <h1>Error</h1>
-      <p>${error.message}</p>
-    `);
+    res.render("pages/error", {
+      error: error
+    })
   }
 });
 

@@ -29,10 +29,9 @@ router.get('/', async (req, res) => {
     })
 
   } catch (error) {
-    res.send(`
-      <h1>Error</h1>
-      <p>${error.message}</p>
-    `);
+    res.render("pages/error", {
+      error: error
+    })
   }
 
 });

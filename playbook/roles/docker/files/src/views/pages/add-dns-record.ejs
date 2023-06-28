@@ -7,18 +7,32 @@
   <header>
     <%- include('../partials/header'); %>
   </header>
-
-  <h2>DNS Zone Records for client: # <%= clientId %></h2>
-  <% if(addDomainResponse.status){ %>
-    <h3>DNS Zone Added</h3>
-    <p>The domain was successfully added to your client.</p>
-  <% } else { %>
-    <h3>DNS Zone Not Added</h3>
-    <p><%= addDomainResponse.msg %></p>
-  <% } %>
-
-  
-  <a href="/">Next</a>
+  <main>
+    <h2>DNS Zone Records for client: # <%= clientId %></h2>
+    <% if(dnsRecordResponse.status){ %>
+      <h3>DNS Zone Added</h3>
+      <p>The DNS record was successfully added to <%= domain %>.</p>
+      <h3>This is a list of all DNS Records on <%= domain %></h3>
+      <ul>
+        <% dnsList.forEach(function(record) { %>
+          <li>
+            <strong>Record ID:</strong> <%= record.id %><br>
+            <strong>Name:</strong> <%= record.name %><br>
+            <strong>Type:</strong> <%= record.type %><br>
+            <strong>Content:</strong> <%= record.content %><br>
+            <strong>TTL:</strong> <%= record.ttl %><br>
+            <strong>Prio:</strong> <%= record.prio %><br>
+            <strong>Change Date:</strong> <%= record.change_date %><br>
+            <strong>State:</strong> <%= record.state %>
+          </li>
+        <% }); %>
+      </ul>
+    <% } else { %>
+      <h3>DNS Record Not Added</h3>
+      <p><%= dnsRecordResponse.msg %></p>
+    <% } %>  
+    <a href="/">Next</a>
+  </main>
 <footer>
   <%- include('../partials/footer'); %>
 </footer>

@@ -6,43 +6,40 @@
 <title>Site-Host -> Hire me!</title>
 <style>
   html {
-    padding: 0 20px;
+    padding: 0 5%;
   }
 
   body {
-    font-size: 18px;
-    max-width: 720px;
-    line-height: 1.6em;
-    margin: 10% auto 0 auto;
     font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 18px;
+    line-height: 1.6em;
+    margin: 5vh auto 0 auto;
+    max-width: 720px;
   }
-
+  main{
+    margin-bottom: 10vh;
+  }
   a {
     color: #159ADF;
   }
 
   .logo {
-    width: 200px;
     display: block;
     margin-bottom: 30px;
+    width: 200px;
   }
 
-    .logo img {
-      width: 200px;
-    }
-
-  form.last {
-    padding: 0 0 40px 0;
-    border-bottom: 1px solid #e0e0e0;
+  .logo img {
+    width: 200px;
   }
 
   form input, select {
-    outline: 0;
-    border: 1px solid #ccc;
     border-radius: 4px;
-    padding: 4px 8px;
-    margin-bottom: 0;
+    border: 1px solid #ccc;
     font-size: 15px;
+    margin-bottom: 0;
+    outline: 0;
+    padding: 4px 8px;
     transition: border linear .2s,box-shadow linear .2s;
 
   }
@@ -52,55 +49,61 @@
   }
 
   form input[type="text"]:focus {
-    outline: 0;
-    border-width: 1px;
     border-color: rgba(82,168,236,.8);
+    border-width: 1px;
     box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
+    outline: 0;
   }
   
   form input[type="submit"]{
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
+    background: 0 0;
+    border-color: #0889C5;
     border-radius: 4px;
     border-width: 2px;
-    border-color: #0889C5;
-    background: 0 0;
-    color: #1B2429;
-    letter-spacing: .02em;
-    font-weight: 400;
-    padding: 8px 16px;
     box-shadow: none;
+    color: #1B2429;
+    font-weight: 400;
+    letter-spacing: .02em;
+    padding: 8px 16px;
     text-shadow: none;
-    -webkit-transition: all .2s ease-in-out;
-    -moz-transition: all .2s ease-in-out;
-    -o-transition: all .2s ease-in-out;
-    transition: all .2s ease-in-out
+    transition: all .2s ease-in-out;
   }
 
   form input[type="submit"]:hover{
+    background-color: #0889C5;
     color: #fff;
-    background-color: #0889C5
+  }
+
+  .last {
+    padding-bottom: 20px;
   }
 
   .footer-nav {
-    margin: 0;
-    padding: 0;
+    background: white;
+    border-top: 1px solid #e0e0e0;
+    bottom: 0;
     color: #e0e0e0;
     font-size: 14px;
+    left: 0;
+    margin: 0 5%;
+    padding: 10px 0;
+    position: fixed;
+    text-align: center;
+    width: 90%;
   }
 
-    .footer-nav li {
-      list-style: none;
-      display: inline;
-    }
+  .footer-nav li {
+    display: inline;
+    list-style: none;
+  }
 
-    .footer-nav a {
-      color: #b3b3b3;
-      margin: 0 8px 0 8px;
-      display: inline-block;
-    }
+  .footer-nav a {
+    color: #b3b3b3;
+    display: inline-block;
+    margin: 0 8px 0 8px;
+  }
 
-    .footer-nav li:first-child a {
-      margin-left: 0;
-    }
+  .footer-nav li:first-child a {
+    margin-left: 0;
+  }
 </style>
