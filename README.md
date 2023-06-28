@@ -1,11 +1,12 @@
 # Home Challenge: Lucas Boglione
 
+
 ## First - Create SSH Key
 
-If you plan to execute `playbook.yml` on multiple servers simultaneously or for security purposes, I would recommend creating an SSH key on your computer (control node) and copying that SSH key into the **Site Host** control panel's SSH Keys section. By doing this, when you create new VPS instances, you can include those SSH keys in the VPS configuration.
+For security purposes and to save time when running an Ansible playbook on multiple targets, I would recommend creating an SSH Key on your computer (control node) and copying that SSH Key into the **Site Host** control panel's SSH Keys section. By doing this, you can include those SSH Keys in the VPS configuration when creating new VPS instances.
 
 
-To begin, you can check if you already have SSH keys on your computer.
+To begin, you can check if you already have SSH Keys on your computer.
 
 **List SSH Keys:**
 
@@ -14,7 +15,7 @@ ls -la ~/.ssh
 ```
 
 
-If the previous command prints something like this in the terminal, it means that you will need to create new SSH keys
+If the previous command prints something like this in the terminal, it means that you will need to create new SSH Keys
 
 ```
 drwx------  14 user  staff   448 28 Jun 22:49 .
@@ -24,7 +25,7 @@ drwxr-xr-x+ 41 user  staff  1312 26 Jun 10:19 ..
 ```
 
 
-To create a new SSH key on your computer (control node), you can follow the next  steps. 
+To create a new SSH Key on your computer (control node), you can follow the next  steps. 
 
 
 **Create a key for Ansible:**
