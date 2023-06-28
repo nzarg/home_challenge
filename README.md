@@ -65,7 +65,7 @@ drwxr-xr-x+ 41 user  staff  1312 26 Jun 10:19 ..
 -rw-r--r--   1 user  staff  1273 26 Jun 08:44 known_hosts.old
 ```
 
-**Display the key in the terminal:**
+**Display the keys in the terminal:**
 
 ```bash
 cat ~/.ssh/ansible.pub
@@ -73,15 +73,16 @@ cat ~/.ssh/id_ed25519.pub
 ```
 
 >
->NOTE: For security reasons, it is crucial to copy the content of the public key and not the private key. The public key is the one that includes the .pub extension. If you would like to learn more about how SSH keys work, please refer to the following link <a href="https://www.ssh.com/academy/ssh-keys" target="_blank">SSH.COM</a>
+>NOTE: For security reasons, it is crucial to copy the content of the public key and not the private key. The public key is the one that includes the .pub extension. If you would like to learn more about how SSH keys work, please refer to the following link <a href="https://kb.sitehost.nz/servers/ssh-keys" target="_blank">SSH Keys</a>
 >
 
+**Site-Host Control Panel**
 
 Copy these values into the <a href="https://cp.sitehost.nz/ssh/list-keys" target="_blank">Site Host -> Control Panel -> SSH Keys</a> and create two different SSH Keys. You can now create the VPS and include these SSH Keys in it.
 
 
->
-> In case you forgot to select to include your SSH Key when creating your VPS, the following commands are useful for copying your SSH Keys from your computer to the target host.
+
+In case you forgot to select to include your SSH Key when creating your VPS, the following commands are useful for copying your SSH Keys from your computer to the target host.
 
 
 **Copy to Target Host:**
