@@ -98,12 +98,25 @@
         src: ./roles/docker/files/
         dest: /app/
     
+    - name: Run Node.js app container
+      docker_container:
+        name: node-app
+        image: nzarg/node-app
+        state: absent
+        restart_policy: always
+        published_ports:
+          - 80:80
+
     - name: Build docker container
-      command: docker build -t nzarg/node-app:1.4 .
+      command: docker build -t nzarg/node-app .
       args:
         chdir: /app/
 
-    - name: Run docker container
-      command: docker run -d -p 80:80 nzarg/node-app:1.4
-      args:
-        chdir: /app/
+    - name: Run Node.js app container
+      docker_container:
+        name: node-app
+        image: nzarg/node-app
+        state: started
+        restart_policy: always
+        published_ports:
+          - 80:80
