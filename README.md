@@ -73,7 +73,7 @@ cat ~/.ssh/id_ed25519.pub
 ```
 
 >
->NOTE: It's really important that you include the .pub extension for security reasons. If you want to know how they work check the following link <a href="https://www.ssh.com/academy/ssh-keys" target="_blank">SSH.COM</a>
+>NOTE: For security reasons, it is crucial to copy the content of the public key and not the private key. The public key is the one that includes the .pub extension. If you would like to learn more about how SSH keys work, please refer to the following link <a href="https://www.ssh.com/academy/ssh-keys" target="_blank">SSH.COM</a>
 >
 
 
@@ -82,9 +82,6 @@ Copy these values into the <a href="https://cp.sitehost.nz/ssh/list-keys" target
 
 >
 > In case you forgot to select to include your SSH Key when creating your VPS, the following commands are useful for copying your SSH Keys from your computer to the target host.
->
->NOTE: Please replace `128.128.128.128` with the actual IP address of the target host.
->
 
 
 **Copy to Target Host:**
@@ -99,6 +96,10 @@ ssh-copy-id -i ~/.ssh/id_ed25519.pub 128.128.128.128
 ssh-copy-id -i ~/.ssh/ansible.pub 128.128.128.128
 ```
 
+>
+>NOTE: Please replace `128.128.128.128` with the actual IP address of the target host.
+>
+
 
 ## Second - Update your computer
 
@@ -112,6 +113,26 @@ ansible-playbook install_on_control_node.yml
 ## Third and last - Configure Ansible
 
 Before proceeding, make sure to configure the `inventory` file with the IP addresses where you want to install this software.
+
+```
+[Ubuntu22]
+128.128.128.128
+128.128.128.128
+
+[Debian11]
+128.128.128.128
+128.128.128.128
+128.128.128.128
+
+[CentOS7]
+128.128.128.128
+```
+
+
+>
+>NOTE: Please replace `128.128.128.128` with the actual IP address of the target host.
+>
+
 
 Later, you will need to configure your <a href="https://cp.sitehost.nz/api/list-keys" target="_blank">API_KEY</a> and add the `IP addresses` to the appropriate section.
 
