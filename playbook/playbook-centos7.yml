@@ -33,7 +33,6 @@
         permanent: true
         state: enabled
         source: "{{ item }}"
-        service: ssh
         immediate: true
       loop:
         - 120.138.16.30
