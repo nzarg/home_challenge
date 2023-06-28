@@ -13,6 +13,12 @@
       apt:
         name: ufw
         state: present
+    
+    - name: Set UFW default policies
+      command: ufw {{ item }}
+      with_items:
+        - default deny incoming
+        - default allow outgoing
 
     - name: Configure UFW to allow SSH
       ufw:
