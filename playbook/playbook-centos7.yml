@@ -33,6 +33,7 @@
         permanent: true
         state: enabled
         source: "{{ item }}"
+        service: ssh
         immediate: true
       loop:
         - 120.138.16.30
@@ -40,7 +41,7 @@
         - 120.138.19.228
         - 122.62.200.10
     
-    - name: Configure firewalld SSH
+    - name: Configure firewalld Deny SSH
       firewalld:
         zone: public
         permanent: true
@@ -65,13 +66,11 @@
         key: https://download.docker.com/linux/centos/gpg
         state: present
 
-    - name: Add Docker repository
-      yum_repository:
-        name: docker-ce
-        baseurl: https://download.docker.com/linux/centos/7/$basearch/stable
-        gpgcheck: yes
-        gpgkey: https://download.docker.com/linux/centos/gpg
-        state: present
+    - name: Configuring docker-ce repo
+      get_url:
+      url: https://download.docker.com/linux/centos/docker-ce.repo
+      dest: /etc/yum.repos.d/docker-ce.repo
+      mode: 0644
 
     - name: Install Docker
       yum:
