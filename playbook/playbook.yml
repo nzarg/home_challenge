@@ -1,6 +1,6 @@
 ---
 - name: Configure VPS
-  hosts: node1
+  hosts: servers
   become: true
   gather_facts: false
 
@@ -30,10 +30,20 @@
         - 120.138.23.30
         - 120.138.19.228
         - 122.62.200.10
+    
+    - name: Configure UFW to deny SSH
+      ufw:
+        rule: deny
+        port: '22'
+        comment: "Deny SSH"
+        state: enabled
 
     - name: Enable UFW
       ufw:
         state: enabled
+
+
+
 
     - name: Install Docker dependencies
       apt:
