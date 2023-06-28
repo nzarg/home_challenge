@@ -1,6 +1,4 @@
-# Site-Host 
-
-## Home Challenge: Lucas Boglione
+# Home Challenge: Lucas Boglione
 
 ## First - Create SSH Key
 
@@ -12,13 +10,13 @@ To begin, you can check if you already have SSH keys on your computer.
 **List SSH Keys:**
 
 ```bash
-$ ls -la ~/.ssh
+ls -la ~/.ssh
 ```
 
 
 If the previous command prints something like this in the terminal, it means that you will need to create new SSH keys
 
-```bash 
+```
 drwx------  14 user  staff   448 28 Jun 22:49 .
 drwxr-xr-x+ 41 user  staff  1312 26 Jun 10:19 ..
 -rw-------   1 user  staff  1623 28 Jun 22:39 known_hosts
@@ -32,7 +30,7 @@ To create a new SSH key on your computer (control node), you can follow the next
 **Create a key for Ansible:**
 
 ```bash
-$ ssh-keygen -t ed25519 -C "ansible"
+ssh-keygen -t ed25519 -C "ansible"
 ```
 You will be asked for the name of the file type "ansible" and then a passphrase, which you should leave empty.
 
@@ -42,7 +40,7 @@ The next step is optional but highly recommended for security reasons. However, 
 **Generate another key with a passphrase:**
 
 ```bash
-$ ssh-keygen -t ed25519 -C 'user default'
+ssh-keygen -t ed25519 -C 'user default'
 ```
 You will be asked for the name of the file. You can use the default value, and then provide a passphrase.
 
@@ -50,12 +48,12 @@ You will be asked for the name of the file. You can use the default value, and t
 **List al your keys:**
 
 ```bash
-$ ls -la ~/.ssh
+ls -la ~/.ssh
 ```
 
 The previous command should prints something like this in the terminal now.
 
-```bash
+```
 drwx------  14 user  staff   448 28 Jun 22:49 .
 drwxr-xr-x+ 41 user  staff  1312 26 Jun 10:19 ..
 -rw-------   1 user  staff   400 26 Jun 08:33 ansible
@@ -69,16 +67,16 @@ drwxr-xr-x+ 41 user  staff  1312 26 Jun 10:19 ..
 **Display the key in the terminal:**
 
 ```bash
-$ cat ~/.ssh/ansible.pub
-$ cat ~/.ssh/id_ed25519.pub
+cat ~/.ssh/ansible.pub
+cat ~/.ssh/id_ed25519.pub
 ```
 
 >
->NOTE: It's really important that you include the .pub extension for security reasons. If you want to know how they work check the following link <a href="https://www.ssh.com/academy/ssh-keys">SSH.COM</a>
+>NOTE: It's really important that you include the .pub extension for security reasons. If you want to know how they work check the following link <a href="https://www.ssh.com/academy/ssh-keys" target="_blank">SSH.COM</a>
 >
 
 
-Copy these values into the <a href="https://cp.sitehost.nz/ssh/list-keys">Site Host -> Control Panel -> SSH Keys</a> and create two different SSH Keys. You can now create the VPS and include these SSH Keys in it.
+Copy these values into the <a href="https://cp.sitehost.nz/ssh/list-keys" target="_blank">Site Host -> Control Panel -> SSH Keys</a> and create two different SSH Keys. You can now create the VPS and include these SSH Keys in it.
 
 
 >
@@ -91,13 +89,13 @@ Copy these values into the <a href="https://cp.sitehost.nz/ssh/list-keys">Site H
 **Copy to Target Host:**
 
 ```bash
-$ ssh-copy-id -i ~/.ssh/id_ed25519.pub 128.128.128.128
+ssh-copy-id -i ~/.ssh/id_ed25519.pub 128.128.128.128
 ```
 
 
 **Copy to Target Host:**
 ```bash
-$ ssh-copy-id -i ~/.ssh/ansible.pub 128.128.128.128
+ssh-copy-id -i ~/.ssh/ansible.pub 128.128.128.128
 ```
 
 
@@ -106,7 +104,7 @@ $ ssh-copy-id -i ~/.ssh/ansible.pub 128.128.128.128
 To ensure that your computer (control node) is up to date, run the command:
 
 ```bash
-$ ansible-playbook install_on_control_node.yml
+ansible-playbook install_on_control_node.yml
 ```
 
 
@@ -114,10 +112,16 @@ $ ansible-playbook install_on_control_node.yml
 
 Before proceeding, make sure to configure the `inventory` file with the IP addresses where you want to install this software.
 
-Later, you will need to configure your <a href="https://cp.sitehost.nz/api/list-keys">API_KEY</a> and add the `IP addresses` to the appropriate section.
+Later, you will need to configure your <a href="https://cp.sitehost.nz/api/list-keys" target="_blank">API_KEY</a> and add the `IP addresses` to the appropriate section.
 
-Finally, execute the command:
+Finally, execute the command based on your VPS distro:
 
 ```bash
-$ ansible-playbook playbook.yml
+ansible-playbook playbook-ubuntu22-04.yml
+```
+```bash
+ansible-playbook playbook-centos7.yml
+```
+```bash
+ansible-playbook playbook-debian11.yml
 ```
