@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const { apiKey, getClientId, getDomainsList } = require('../apiUtils');
+const { getClientId, getDomainsList } = require('../apiUtils');
+const { apiKey } = require('../apiKey');
 
 
 // Route for displaying the form to add a DNS record

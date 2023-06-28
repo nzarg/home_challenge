@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const querystring = require('querystring');
-const { apiKey, getClientId, addDNSRecord, getDnsList } = require('../apiUtils');
+const { getClientId, addDNSRecord, getDnsList } = require('../apiUtils');
+const { apiKey } = require('../apiKey');
 
 // Route for handling the addition of a DNS record
 router.post('/', async (req, res) => {
