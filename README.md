@@ -1,5 +1,8 @@
 # Home Challenge: Lucas Boglione
 
+Assuming you already have Ansible installed on your computer or Node Control, if that's not the case, the following link will help you <a href="https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html" target="_blank">get started with Ansible</a>.
+
+Please clone this repository onto your computer and follow the next steps.
 
 ## First - Create SSH Key
 
