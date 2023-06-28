@@ -1,30 +1,32 @@
 ---
 - name: Configure VPS
-  hosts: Node1
+  hosts: CentOS7
   become: true
   gather_facts: false
 
   tasks:
-    - name: Update apt cache
-      apt:
-        update_cache: yes
+    - name: Update yum cache
+      yum:
+        name: "*"
+        state: latest
 
     - name: Install UFW (Uncomplicated Firewall)
-      apt:
+      yum:
         name: ufw
         state: present
     
     - name: Set UFW default policies
       command: ufw {{ item }}
-      with_items:
+      loop:
         - default deny incoming
         - default allow outgoing
 
     - name: Configure UFW to allow incoming connections from specific IP addresses
-      ufw:
-        rule: allow
-        from_ip: "{{ item }}"
+      firewalld:
+        zone: public
+        permanent: true
         state: enabled
+        port: "{{ item }}/tcp"
       loop:
         - 120.138.16.30
         - 120.138.23.30
@@ -32,49 +34,43 @@
         - 122.62.200.10
     
     - name: Configure UFW to deny SSH
-      ufw:
-        rule: deny
-        port: '22'
-        comment: "Deny SSH"
+      firewalld:
+        zone: public
+        permanent: true
         state: enabled
+        service: ssh
 
     - name: Enable UFW
-      ufw:
+      firewalld:
+        zone: public
+        permanent: true
         state: enabled
 
-
-
-
     - name: Install Docker dependencies
-      apt:
+      yum:
         name:
-          - apt-transport-https
-          - ca-certificates
-          - curl
-          - gnupg
-          - lsb-release
+          - yum-utils
+          - device-mapper-persistent-data
+          - lvm2
         state: present
 
     - name: Add Docker GPG key
-      apt_key:
-        url: https://download.docker.com/linux/ubuntu/gpg
+      rpm_key:
+        key: https://download.docker.com/linux/centos/gpg
         state: present
 
     - name: Add Docker repository
-      apt_repository:
-        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable
+      yum_repository:
+        name: docker-ce
+        baseurl: https://download.docker.com/linux/centos/7/$basearch/stable
+        gpgcheck: yes
+        gpgkey: https://download.docker.com/linux/centos/gpg
         state: present
-
-    - name: Update apt cache after adding Docker repository
-      apt:
-        update_cache: yes
-        cache_valid_time: 3600
 
     - name: Install Docker
-      apt:
+      yum:
         name: docker-ce
         state: present
-
 
     - name: Start Docker service
       service:
@@ -83,7 +79,7 @@
         enabled: yes
 
     - name: Install pip for Python 3
-      apt:
+      yum:
         name: python3-pip
         state: present
 
@@ -94,15 +90,16 @@
         executable: pip3
 
     - name: Install Rsync
-      apt:
+      yum:
         name: rsync
+        state: present
 
     - name: Copy application code
       synchronize:
         src: ./docker/
         dest: /app/
     
-    - name: Delete previows Node.js app container
+    - name: Delete previous Node.js app container
       docker_container:
         name: node-app
         image: nzarg/node-app

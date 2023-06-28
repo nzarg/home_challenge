@@ -1,6 +1,6 @@
 ---
 - name: Configure VPS
-  hosts: Debian1
+  hosts: Debian11
   become: false
   gather_facts: false
 
