@@ -20,13 +20,6 @@
         - default deny incoming
         - default allow outgoing
 
-    - name: Configure UFW to allow SSH
-      ufw:
-        rule: allow
-        port: '22'
-        comment: "Allow SSH"
-        state: enabled
-
     - name: Configure UFW to allow incoming connections from specific IP addresses
       ufw:
         rule: allow
@@ -35,6 +28,7 @@
       loop:
         - 120.138.16.30
         - 120.138.23.30
+        - 120.138.19.228
         - 122.62.200.10
 
     - name: Enable UFW
@@ -98,7 +92,7 @@
         src: ./roles/docker/files/
         dest: /app/
     
-    - name: Run Node.js app container
+    - name: Delete previows Node.js app container
       docker_container:
         name: node-app
         image: nzarg/node-app
