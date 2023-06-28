@@ -9,44 +9,42 @@
       yum:
         name: "*"
         state: latest
-        update_cache: yes
-        update_only: yes
 
-    - name: Install UFW (Uncomplicated Firewall)
+    - name: Install firewalld
       yum:
-        name: ufw
+        name: firewalld
         state: present
     
-    - name: Set UFW default policies
-      command: ufw {{ item }}
-      loop:
-        - default deny incoming
-        - default allow outgoing
+    - name: Start firewalld service
+      service:
+        name: firewalld
+        state: started
+        enabled: yes
 
-    - name: Configure UFW to allow incoming connections from specific IP addresses
+    - name: Configure firewalld to allow incoming connections from specific IP addresses
       firewalld:
         zone: public
         permanent: true
         state: enabled
         port: "{{ item }}/tcp"
+        immediate: true
       loop:
         - 120.138.16.30
         - 120.138.23.30
         - 120.138.19.228
         - 122.62.200.10
     
-    - name: Configure UFW to deny SSH
+    - name: Configure firewalld to deny SSH
       firewalld:
         zone: public
         permanent: true
         state: enabled
         service: ssh
 
-    - name: Enable UFW
-      firewalld:
-        zone: public
-        permanent: true
-        state: enabled
+    - name: Reload firewalld
+      service:
+        name: firewalld
+        state: reloaded
 
     - name: Install Docker dependencies
       yum:
