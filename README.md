@@ -16,16 +16,17 @@ $ ls -la ~/.ssh
 ```
 
 
-**Print id_ed25519.pub file:**
+If the previous command prints something like this in the terminal, it means that you will need to create new SSH keys
 
-```bash
-$ cat ~/.ssh/id_ed25519.pub
+```bash 
+drwx------  14 user  staff   448 28 Jun 22:49 .
+drwxr-xr-x+ 41 user  staff  1312 26 Jun 10:19 ..
+-rw-------   1 user  staff  1623 28 Jun 22:39 known_hosts
+-rw-r--r--   1 user  staff  1273 26 Jun 08:44 known_hosts.old
 ```
 
 
-If you wish to create a new SSH key on your computer (control node), you can follow these steps. To make it easier for you, I have provided a sample IP address `128.128.128.128` in the following commands.
-
-NOTE: Please remember to replace `128.128.128.128` with the actual IP address of the target host.
+To create a new SSH key on your computer (control node), you can follow the next  steps. 
 
 
 **Create a key for Ansible:**
@@ -52,6 +53,18 @@ You will be asked for the name of the file. You can use the default value, and t
 $ ls -la ~/.ssh
 ```
 
+The previous command should prints something like this in the terminal now.
+
+```bash
+drwx------  14 user  staff   448 28 Jun 22:49 .
+drwxr-xr-x+ 41 user  staff  1312 26 Jun 10:19 ..
+-rw-------   1 user  staff   400 26 Jun 08:33 ansible
+-rw-r--r--   1 user  staff    90 26 Jun 08:33 ansible.pub
+-rw-------   1 user  staff   444 26 Jun 08:31 id_ed25519
+-r--------   1 user  staff    95 26 Jun 08:32 id_ed25519.pub
+-rw-------   1 user  staff  1623 28 Jun 22:39 known_hosts
+-rw-r--r--   1 user  staff  1273 26 Jun 08:44 known_hosts.old
+```
 
 **Display the key in the terminal:**
 
@@ -60,11 +73,20 @@ $ cat ~/.ssh/ansible.pub
 $ cat ~/.ssh/id_ed25519.pub
 ```
 
-Copy these values into the <a href="https://cp.sitehost.nz/ssh/list-keys">Site Host -> Control Panel -> SSH Keys</a> and create two different SSH Keys. Now, when you create the VPS, you can choose to include these SSH Keys.
+>
+>NOTE: It's really important that you include the .pub extension for security reasons. If you want to know how they work check the following link <a href="https://www.ssh.com/academy/ssh-keys">SSH.COM</a>
+>
+
+
+Copy these values into the <a href="https://cp.sitehost.nz/ssh/list-keys">Site Host -> Control Panel -> SSH Keys</a> and create two different SSH Keys. You can now create the VPS and include these SSH Keys in it.
+
 
 >
 > In case you forgot to select to include your SSH Key when creating your VPS, the following commands are useful for copying your SSH Keys from your computer to the target host.
 >
+>NOTE: Please replace `128.128.128.128` with the actual IP address of the target host.
+>
+
 
 **Copy to Target Host:**
 
@@ -99,4 +121,3 @@ Finally, execute the command:
 ```bash
 $ ansible-playbook playbook.yml
 ```
-
