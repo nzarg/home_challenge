@@ -76,43 +76,22 @@ cat ~/.ssh/id_ed25519.pub
 >NOTE: For security reasons, it is crucial to copy the content of the public key and not the private key. The public key is the one that includes the .pub extension. If you would like to learn more about how SSH keys work, please refer to the following link <a href="https://kb.sitehost.nz/servers/ssh-keys" target="_blank">SSH Keys</a>
 >
 
-**Site-Host Control Panel**
+## Second - Site-Host Control Panel
 
-Copy these values into the <a href="https://cp.sitehost.nz/ssh/list-keys" target="_blank">Site Host -> Control Panel -> SSH Keys</a> and create two different SSH Keys. You can now create the VPS and include these SSH Keys in it.
+**Copy the SSH Keys**
 
+Copy the SSH Keys values into the <a href="https://cp.sitehost.nz/ssh/list-keys" target="_blank">Site Host -> Control Panel -> SSH Keys</a> and create two different SSH Keys. 
 
+**Create your VPS**
 
-In case you forgot to select to include your SSH Key when creating your VPS, the following commands are useful for copying your SSH Keys from your computer to the target host.
-
-
-**Copy to Target Host:**
-
-```bash
-ssh-copy-id -i ~/.ssh/id_ed25519.pub 128.128.128.128
-```
+You can now create the VPS and include these SSH Keys in it, I recommend the latest Ubuntu distro.
 
 
-**Copy to Target Host:**
-```bash
-ssh-copy-id -i ~/.ssh/ansible.pub 128.128.128.128
-```
-
->
->NOTE: Please replace `128.128.128.128` with the actual IP address of the target host.
->
-
-
-## Second - Update your computer
-
-To ensure that your computer (control node) is up to date, run the command:
-
-```bash
-ansible-playbook install_on_control_node.yml
-```
 
 
 ## Third and last - Configure Ansible
 
+**Configure inventory**
 Before proceeding, make sure to configure the `inventory` file with the IP addresses where you want to install this software.
 
 ```
@@ -128,14 +107,24 @@ Before proceeding, make sure to configure the `inventory` file with the IP addre
 [CentOS7]
 128.128.128.128
 ```
-
-
 >
->NOTE: Please replace `128.128.128.128` with the actual IP address of the target host.
+>NOTE: Please replace `128.128.128.128` with the actual IP address of your VPS.
 >
 
+**Create API Key**
+You will need to create your <a href="https://cp.sitehost.nz/api/list-keys" target="_blank">API Key</a>. Don't forget to add the IP addresss of your VPS in your API Key configuration -> Allowed IP Addresses.
 
-Later, you will need to configure your <a href="https://cp.sitehost.nz/api/list-keys" target="_blank">API_KEY</a> and add the `IP addresses` to the appropriate section.
+**Copy API Key**
+
+Open the file /playbook/docker/src/apiKey.js and add your API Key to the file.
+
+```
+const apiKey = 'your-api-goes-here';
+module.exports = {
+  apiKey
+};
+```
+**Run the Ansible Playbook**
 
 Finally, execute the command based on your VPS distro:
 

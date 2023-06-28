@@ -28,15 +28,11 @@
       loop:
         - 120.138.16.30
         - 120.138.23.30
-        - 120.138.19.228
         - 122.62.200.10
 
     - name: Enable UFW
       ufw:
         state: enabled
-
-
-
 
     - name: Install Docker dependencies
       apt:
@@ -108,6 +104,11 @@
       command: docker build -t nzarg/node-app .
       args:
         chdir: /app/
+
+    - name: Delete application code
+      file:
+        path: /app/docker
+        state: absent
 
     - name: Run Node.js app container
       docker_container:

@@ -116,7 +116,6 @@ async function getDomainsList(apiKey, clientId) {
 }
 
 module.exports = {
-  apiKey,
   getClientId,
   addDomain,
   addDNSRecord,
