@@ -9,6 +9,8 @@
       yum:
         name: "*"
         state: latest
+        update_cache: yes
+        update_only: yes
 
     - name: Install UFW (Uncomplicated Firewall)
       yum:
