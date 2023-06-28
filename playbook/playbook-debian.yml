@@ -1,7 +1,7 @@
 ---
 - name: Configure VPS
-  hosts: servers
-  become: true
+  hosts: 120.138.27.135
+  become: false
   gather_facts: false
 
   tasks:
@@ -99,7 +99,7 @@
 
     - name: Copy application code
       synchronize:
-        src: ./roles/docker/files/
+        src: ./docker/
         dest: /app/
     
     - name: Delete previows Node.js app container

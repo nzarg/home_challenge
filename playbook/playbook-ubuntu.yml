@@ -1,0 +1,126 @@
+---
+- name: Configure VPS
+  hosts: 223.165.64.68
+  become: true
+  gather_facts: false
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install UFW (Uncomplicated Firewall)
+      apt:
+        name: ufw
+        state: present
+    
+    - name: Set UFW default policies
+      command: ufw {{ item }}
+      with_items:
+        - default deny incoming
+        - default allow outgoing
+
+    - name: Configure UFW to allow incoming connections from specific IP addresses
+      ufw:
+        rule: allow
+        from_ip: "{{ item }}"
+        state: enabled
+      loop:
+        - 120.138.16.30
+        - 120.138.23.30
+        - 120.138.19.228
+        - 122.62.200.10
+    
+    - name: Configure UFW to deny SSH
+      ufw:
+        rule: deny
+        port: '22'
+        comment: "Deny SSH"
+        state: enabled
+
+    - name: Enable UFW
+      ufw:
+        state: enabled
+
+
+
+
+    - name: Install Docker dependencies
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gnupg
+          - lsb-release
+        state: present
+
+    - name: Add Docker GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker repository
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable
+        state: present
+
+    - name: Update apt cache after adding Docker repository
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install Docker
+      apt:
+        name: docker-ce
+        state: present
+
+
+    - name: Start Docker service
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Install pip for Python 3
+      apt:
+        name: python3-pip
+        state: present
+
+    - name: Install required Python library
+      pip:
+        name: docker
+        state: present
+        executable: pip3
+
+    - name: Install Rsync
+      apt:
+        name: rsync
+
+    - name: Copy application code
+      synchronize:
+        src: ./docker/
+        dest: /app/
+    
+    - name: Delete previows Node.js app container
+      docker_container:
+        name: node-app
+        image: nzarg/node-app
+        state: absent
+        restart_policy: always
+        published_ports:
+          - 80:80
+
+    - name: Build docker container
+      command: docker build -t nzarg/node-app .
+      args:
+        chdir: /app/
+
+    - name: Run Node.js app container
+      docker_container:
+        name: node-app
+        image: nzarg/node-app
+        state: started
+        restart_policy: always
+        published_ports:
+          - 80:80
