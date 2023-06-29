@@ -47,7 +47,7 @@ ssh-keygen -t ed25519 -C 'user default'
 You will be asked for the file name, use the default value, and then provide a passphrase.
 
 
-**List al your keys:**
+**List all your keys:**
 
 ```bash
 ls -la ~/.ssh
@@ -115,7 +115,7 @@ Before proceeding, make sure to configure the `inventory` file with the IP addre
 
 **Create API Key**
 
-You will need to create your <a href="https://cp.sitehost.nz/api/list-keys" target="_blank">API Key</a>. Don't forget to add the IP addresss of your VPS in your API Key configuration -> Allowed IP Addresses.
+You will need to create your <a href="https://cp.sitehost.nz/api/list-keys" target="_blank">API Key</a>. Don't forget to add the IP addresses of your VPS in your API Key configuration -> Allowed IP Addresses.
 
 **Copy API Key into apiKey.js**
 
@@ -129,7 +129,7 @@ module.exports = {
 ```
 **Run the Ansible Playbook**
 
-Finally, execute the command based on your VPS distribuition:
+Finally, execute the command based on your VPS distribution:
 
 **Ubuntu 22.04**
 
